@@ -1,6 +1,6 @@
 export interface HeroStat {
   id: string;
-  localized_name: string;
+  name: string;
   primary_attr: string;
   attack_type: string;
   roles: string[];

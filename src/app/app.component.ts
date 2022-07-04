@@ -8,6 +8,7 @@ import {HeroStat} from "../interfaces/hero-stat";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  heroWRData=  [] as any[]
   heroesWRData = [
     { name: "Ursa", value: 66 },
     { name: "Magnus", value: 52 },
@@ -27,13 +28,24 @@ export class AppComponent {
       next: (data) => {
         if (data) {
           data.map( x => {
-              this.heroStats.push( {
-                  id : x.id,
 
+            this.heroWRData.push({name: x.localized_name, value:  ( x['1_win']/ x['1_pick'] )* 100});
+            this.heroStats.push( {
+                  id : x.id,
+                  name: x.localized_name,
+                  primary_attr: x.primary_attr,
+                  attack_type: x.attack_type,
+                  roles: x.roles,
+                  herald_pick: x['1_pick'],
+                  herald_win: x['1_win'],
                 } as HeroStat
+
               )
+
           });
         }
+      },
+      complete: () => { this.heroWRData = [...this.heroWRData];
       }
     })
   }
