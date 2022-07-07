@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {Dota2OpenApiService} from "../services/dota2-open-api.service";
 import {HeroStat} from "../interfaces/hero-stat";
+import {Subject} from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -8,6 +9,7 @@ import {HeroStat} from "../interfaces/hero-stat";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
   heroWRData=  [] as any[]
   heroesWRData = [
     { name: "Ursa", value: 66 },
@@ -18,12 +20,15 @@ export class AppComponent {
   ];
   heroStats: HeroStat[] = [] as HeroStat[];
 
-
+  attributes = [] as string[];
+  roles = [] as string[];
   constructor(private dota2OpenApi: Dota2OpenApiService) {
   }
 
   ngOnInit(): void {
 
+    this.attributes.push('All');
+    this.roles.push('All');
     this.dota2OpenApi.getHeroStats().subscribe({
       next: (data) => {
         if (data) {
@@ -31,16 +36,16 @@ export class AppComponent {
 
             this.heroWRData.push({name: x.localized_name, value:  ( x['1_win']/ x['1_pick'] )* 100});
             this.heroStats.push( {
-                  id : x.id,
-                  name: x.localized_name,
-                  primary_attr: x.primary_attr,
-                  attack_type: x.attack_type,
-                  roles: x.roles,
-                  herald_pick: x['1_pick'],
-                  herald_win: x['1_win'],
-                } as HeroStat
+                id : x.id,
+                name: x.localized_name,
+                primary_attr: x.primary_attr,
+                attack_type: x.attack_type,
+                roles: x.roles,
+                herald_pick: x['1_pick'],
+                herald_win: x['1_win'],
+              } as HeroStat
 
-              )
+            )
 
           });
         }
@@ -49,4 +54,32 @@ export class AppComponent {
       }
     })
   }
+
+  updateDataAttr(attributes : string[]){
+
+    this.attributes = attributes;
+    var tmpHeroWRData = [] as any[];
+
+    this.heroStats.map( x => {
+      if((attributes.includes(x.primary_attr) || attributes.includes('All')) && (this.checker(x.roles,this.roles) || this.roles.includes('All')))
+        tmpHeroWRData.push({name: x.name, value:  ( +x.herald_win / +x.herald_pick )* 100});
+    })
+    this.heroWRData = [...tmpHeroWRData]
+  }
+
+  //Check if array contains all elements of another array
+  checker = (arr, target) => target.every(v => arr.includes(v));
+
+  updateDataRoles(roles : string[]){
+    this.roles = roles;
+    let tmpHeroWRData = [] as any[];
+
+    this.heroStats.map( x => {
+      if((this.attributes.includes(x.primary_attr) || this.attributes.includes('All')) && (this.checker(x.roles,roles)) || roles.includes('All'))
+        tmpHeroWRData.push({name: x.name, value:  ( +x.herald_win / +x.herald_pick )* 100});
+    })
+    this.heroWRData = [...tmpHeroWRData]
+  }
+
+
 }
