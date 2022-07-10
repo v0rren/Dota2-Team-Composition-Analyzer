@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {HeroStat} from "../../interfaces/hero-stat";
 import {Dota2OpenApiService} from "../../services/dota2-open-api.service";
 import {Router} from "@angular/router";
+import {GeneralStorageService} from "../../services/general-storage.service";
+import { NgxSpinnerService} from "ngx-spinner";
 
 @Component({
   selector: 'app-winrate-heroes',
@@ -11,30 +13,25 @@ import {Router} from "@angular/router";
 export class WinrateHeroesComponent implements OnInit {
 
   heroWRData=  [] as any[]
-  heroesWRData = [
-    { name: "Ursa", value: 66 },
-    { name: "Magnus", value: 52 },
-    { name: "Slark", value: 43 },
-    { name: "Drow", value: 90 },
-    { name: "Pudge", value: 20 }
-  ];
+  pageLoaded: boolean = false;
+
   heroStats: HeroStat[] = [] as HeroStat[];
 
   attributes = [] as string[];
   roles = [] as string[];
   constructor(private dota2OpenApi: Dota2OpenApiService,
-              private router: Router) {
+              private router: Router,
+              private spinner: NgxSpinnerService) {
   }
 
   ngOnInit(): void {
-
+    this.spinner.show();
     this.attributes.push('All');
     this.roles.push('All');
     this.dota2OpenApi.getHeroStats().subscribe({
       next: (data) => {
         if (data) {
           data.map( x => {
-
             this.heroWRData.push({name: x.localized_name, value:  ( x['1_win']/ x['1_pick'] )* 100});
             this.heroStats.push( {
                 id : x.id,
@@ -45,13 +42,16 @@ export class WinrateHeroesComponent implements OnInit {
                 herald_pick: x['1_pick'],
                 herald_win: x['1_win'],
               } as HeroStat
-
             )
 
           });
         }
       },
-      complete: () => { this.heroWRData = [...this.heroWRData];
+      complete: () => {
+        this.heroWRData = [...this.heroWRData];
+        GeneralStorageService.heroes = this.heroStats;
+        this.pageLoaded = true;
+        this.spinner.hide();
       }
     })
   }

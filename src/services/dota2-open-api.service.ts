@@ -16,4 +16,8 @@ getHeroStats(): Observable<any> {
   return this.httpClient.get(this.baseUrl.concat('/heroStats'));
 }
 
+getHeroMatchup(id : string) : Observable<any>
+{
+  return this.httpClient.get(this.baseUrl.concat('/heroes/').concat(id).concat('/matchups'))
+}
 }

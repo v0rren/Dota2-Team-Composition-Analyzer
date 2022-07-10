@@ -1,3 +1,5 @@
+<ngx-spinner type="ball-scale-multiple" > <p>Loading...</p></ngx-spinner>
+<ng-container *ngIf="pageLoaded">
 <app-filter-bar
   (heroTypeChanged)="updateDataAttr($event)"
   (heroRoleChanged)="updateDataRoles($event)"></app-filter-bar>
@@ -19,3 +21,4 @@
   [barPadding]="1"
   (select)="onSelect($event)" >
 </ngx-charts-bar-vertical>
+</ng-container>
