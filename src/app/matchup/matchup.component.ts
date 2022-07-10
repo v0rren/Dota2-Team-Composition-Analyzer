@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-matchup',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MatchupComponent implements OnInit {
 
-  constructor() { }
+  public heroId;
+  constructor(private activatedroute:ActivatedRoute)
+  { }
 
   ngOnInit(): void {
+    this.activatedroute.paramMap.subscribe(params => {
+      this.heroId = params.get('id');
+    });
   }
 
 }

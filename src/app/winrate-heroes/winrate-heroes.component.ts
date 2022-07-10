@@ -61,7 +61,7 @@ export class WinrateHeroesComponent implements OnInit {
       x.name == event.label)
     if(hero) {
       console.log(hero.id);
-      this.router.navigate(['Matchup']);
+      this.router.navigate(['Matchup',hero.id]);
     }
   }
   updateDataAttr(attributes : string[]){

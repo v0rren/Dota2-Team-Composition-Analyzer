@@ -5,7 +5,7 @@ import {WinrateHeroesComponent} from "./winrate-heroes/winrate-heroes.component"
 
 const routes: Routes = [
   { path: 'WinrateHeroes', component: WinrateHeroesComponent },
-  { path: 'Matchup', component: MatchupComponent }
+  { path: 'Matchup/:id', component: MatchupComponent }
 
 ];
 
