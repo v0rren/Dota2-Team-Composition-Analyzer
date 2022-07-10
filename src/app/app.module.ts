@@ -10,11 +10,17 @@ import {MatFormField, MatFormFieldModule, MatLabel} from "@angular/material/form
 import {MatSelect, MatSelectModule, MatSelectTrigger} from "@angular/material/select";
 import {MatOption, MatOptionModule} from "@angular/material/core";
 import {FormsModule,ReactiveFormsModule} from "@angular/forms";
+import { AppRoutingModule } from './app-routing.module';
+import { MatchupComponent } from './matchup/matchup.component';
+import {RouterModule} from "@angular/router";
+import { WinrateHeroesComponent } from './winrate-heroes/winrate-heroes.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    FilterBarComponent
+    FilterBarComponent,
+    MatchupComponent,
+    WinrateHeroesComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +31,9 @@ import {FormsModule,ReactiveFormsModule} from "@angular/forms";
     MatOptionModule,
     MatFormFieldModule,
     FormsModule,
-  ReactiveFormsModule],
+    ReactiveFormsModule,
+    AppRoutingModule,
+    RouterModule],
   providers: [],
   bootstrap: [AppComponent]
 })

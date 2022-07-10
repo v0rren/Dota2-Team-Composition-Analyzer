@@ -1,20 +1,2 @@
-<app-filter-bar
-  (heroTypeChanged)="updateDataAttr($event)"
-  (heroRoleChanged)="updateDataRoles($event)"></app-filter-bar>
-<ngx-charts-bar-vertical
-  [view]="[5000,1000]"
-  [results]="heroWRData"
-  [xAxisLabel]="'Heroes'"
-  [legendTitle]="''"
-  [yAxisLabel]="'Winrate'"
-  [legend]="false"
-  [showXAxisLabel]="true"
-  [showYAxisLabel]="true"
-  [xAxis]="true"
-  [yAxis]="true"
-  [roundDomains]="true"
-  [roundEdges]="true"
-  [yScaleMax]="100"
-  [yScaleMin]="0"
-  [barPadding]="1" >
-</ngx-charts-bar-vertical>
+
+<router-outlet></router-outlet>

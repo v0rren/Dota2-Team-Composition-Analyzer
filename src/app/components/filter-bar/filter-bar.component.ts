@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl} from "@angular/forms";
 
 @Component({
@@ -16,7 +16,7 @@ export class FilterBarComponent implements OnInit {
   heroTypeList: string[] = ['All', 'str', 'int', 'agi'];
   heroRoleList: string[] = ['All', 'Carry', 'Escape', 'Nuker','Durable','Support','Disabler','Initiator'];
 
-  constructor() { }
+  constructor(private elementRef: ElementRef) { }
 
   ngOnInit(): void {
 
@@ -32,5 +32,11 @@ export class FilterBarComponent implements OnInit {
       }
     })
   }
+
+
+  ngOnDestroy() {
+    this.elementRef.nativeElement.remove();
+  }
+
 
 }
