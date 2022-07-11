@@ -3,8 +3,8 @@
 <app-filter-bar
   (heroTypeChanged)="updateDataAttr($event)"
   (heroRoleChanged)="updateDataRoles($event)"></app-filter-bar>
-<ngx-charts-bar-vertical
-  [view]="[5000,1000]"
+<ngx-charts-bar-horizontal-stacked
+  [view]="[1000,5000]"
   [results]="heroWRData"
   [xAxisLabel]="'Heroes'"
   [legendTitle]="''"
@@ -15,10 +15,8 @@
   [xAxis]="true"
   [yAxis]="true"
   [roundDomains]="true"
-  [roundEdges]="true"
-  [yScaleMax]="100"
-  [yScaleMin]="0"
+  [xScaleMax]="70"
   [barPadding]="1"
   (select)="onSelect($event)" >
-</ngx-charts-bar-vertical>
+</ngx-charts-bar-horizontal-stacked>
 </ng-container>

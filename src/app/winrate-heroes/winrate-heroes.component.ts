@@ -32,18 +32,22 @@ export class WinrateHeroesComponent implements OnInit {
       next: (data) => {
         if (data) {
           data.map( x => {
-            this.heroWRData.push({name: x.localized_name, value:  ( x['1_win']/ x['1_pick'] )* 100});
-            this.heroStats.push( {
-                id : x.id,
-                name: x.localized_name,
-                primary_attr: x.primary_attr,
-                attack_type: x.attack_type,
-                roles: x.roles,
-                herald_pick: x['1_pick'],
-                herald_win: x['1_win'],
-              } as HeroStat
-            )
+            let heroStat = {
+              id : x.id,
+              name: x.localized_name,
+              primary_attr: x.primary_attr,
+              attack_type: x.attack_type,
+              roles: x.roles,
+              herald_pick: x['1_pick'],
+              herald_win: x['1_win'],
+            } as HeroStat
+            this.heroStats.push( heroStat)
 
+
+            let seriesArr = this.GenerateSeriesArray(heroStat);
+
+
+            this.heroWRData.push({name: x.localized_name, series:  seriesArr});
           });
         }
       },
@@ -55,6 +59,21 @@ export class WinrateHeroesComponent implements OnInit {
       }
     })
   }
+
+  private GenerateSeriesArray(heroStat : HeroStat) {
+    let winrate = (+heroStat.herald_win / +heroStat.herald_pick) * 100;
+
+    let roles = heroStat.roles;
+
+    let seriesArr = [] as any[];
+
+    for (const rolesKey in roles) {
+      seriesArr.push({name: roles[rolesKey], value: winrate / roles.length})
+
+    }
+    return seriesArr;
+  }
+
   onSelect(event) {
     console.log(event);
     let hero = this.heroStats.find( x =>
@@ -70,8 +89,10 @@ export class WinrateHeroesComponent implements OnInit {
     var tmpHeroWRData = [] as any[];
 
     this.heroStats.map( x => {
-      if((attributes.includes(x.primary_attr) || attributes.includes('All')) && (this.checker(x.roles,this.roles) || this.roles.includes('All')))
-        tmpHeroWRData.push({name: x.name, value:  ( +x.herald_win / +x.herald_pick )* 100});
+      if((attributes.includes(x.primary_attr) || attributes.includes('All')) && (this.checker(x.roles,this.roles) || this.roles.includes('All'))){
+        let seriesArr = this.GenerateSeriesArray(x);
+        tmpHeroWRData.push({name: x.name, series: seriesArr});
+      }
     })
     this.heroWRData = [...tmpHeroWRData]
   }
@@ -84,8 +105,10 @@ export class WinrateHeroesComponent implements OnInit {
     let tmpHeroWRData = [] as any[];
 
     this.heroStats.map( x => {
-      if((this.attributes.includes(x.primary_attr) || this.attributes.includes('All')) && (this.checker(x.roles,roles)) || roles.includes('All'))
-        tmpHeroWRData.push({name: x.name, value:  ( +x.herald_win / +x.herald_pick )* 100});
+      if((this.attributes.includes(x.primary_attr) || this.attributes.includes('All')) && (this.checker(x.roles,roles)) || roles.includes('All')) {
+        let seriesArr = this.GenerateSeriesArray(x);
+        tmpHeroWRData.push({name: x.name, series: seriesArr});
+      }
     })
     this.heroWRData = [...tmpHeroWRData]
   }
