@@ -1,23 +1,24 @@
 <ngx-spinner type="ball-scale-multiple" > <p>Loading...</p></ngx-spinner>
 <ng-container *ngIf="pageLoaded">
-<mat-card>{{heroName}} Winrates</mat-card>
-
-
-<ngx-charts-bar-vertical
-  [view]="[5000,1000]"
-  [results]="heroWRData"
-  [xAxisLabel]="'Heroes'"
-  [legendTitle]="''"
-  [yAxisLabel]="'Winrate'"
-  [legend]="false"
-  [showXAxisLabel]="true"
-  [showYAxisLabel]="true"
-  [xAxis]="true"
-  [yAxis]="true"
-  [roundDomains]="true"
-  [roundEdges]="true"
-  [yScaleMax]="100"
-  [yScaleMin]="0"
-  [barPadding]="1">
-</ngx-charts-bar-vertical>
+  <div>
+    <button [routerLink]="'/WinrateHeroes'"  mat-raised-button>Back</button>
+    <mat-card>{{heroName}} Matchup Winrates </mat-card>
+  </div>
+  <ngx-charts-bar-vertical
+    [view]="[1000,1000]"
+    [results]="heroWRData"
+    [xAxisLabel]="'Heroes'"
+    [legendTitle]="''"
+    [yAxisLabel]="'Winrate'"
+    [legend]="false"
+    [showXAxisLabel]="true"
+    [showYAxisLabel]="true"
+    [xAxis]="true"
+    [yAxis]="true"
+    [roundDomains]="true"
+    [roundEdges]="true"
+    [yScaleMax]="100"
+    [yScaleMin]="0"
+    [barPadding]="1">
+  </ngx-charts-bar-vertical>
 </ng-container>

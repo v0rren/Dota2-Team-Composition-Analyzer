@@ -16,6 +16,8 @@ import { WinrateHeroesComponent } from './winrate-heroes/winrate-heroes.componen
 import { MatCardModule} from "@angular/material/card";
 import {MatInputModule} from "@angular/material/input";
 import {NgxSpinnerModule} from "ngx-spinner";
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatIconModule} from "@angular/material/icon";
 
 @NgModule({
   declarations: [
@@ -39,6 +41,8 @@ import {NgxSpinnerModule} from "ngx-spinner";
     MatCardModule,
     MatInputModule,
     NgxSpinnerModule,
+    MatToolbarModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

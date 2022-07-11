@@ -1,10 +1,19 @@
 <ngx-spinner type="ball-scale-multiple" > <p>Loading...</p></ngx-spinner>
+
+
 <ng-container *ngIf="pageLoaded">
-<app-filter-bar
-  (heroTypeChanged)="updateDataAttr($event)"
-  (heroRoleChanged)="updateDataRoles($event)"></app-filter-bar>
+  <mat-card>
+    <mat-card-title>Welcome to Dota2 Hero Picker Helper</mat-card-title>
+    <mat-card-subtitle>Here you can look at  general Winrate of every hero</mat-card-subtitle>
+    <app-filter-bar
+      (heroTypeChanged)="updateDataAttr($event)"
+      (heroRoleChanged)="updateDataRoles($event)"></app-filter-bar>
+   <div>Tip! Click on a hero to look at the favorable matchups
+    </div>
+  </mat-card>
+
 <ngx-charts-bar-horizontal-stacked
-  [view]="[1000,5000]"
+  [view]="view"
   [results]="heroWRData"
   [xAxisLabel]="'Heroes'"
   [legendTitle]="''"
@@ -15,8 +24,9 @@
   [xAxis]="true"
   [yAxis]="true"
   [roundDomains]="true"
-  [xScaleMax]="70"
-  [barPadding]="1"
-  (select)="onSelect($event)" >
+  [barPadding]="2"
+  (select)="onSelect($event)"
+  (window:resize)="onResize($event)">
 </ngx-charts-bar-horizontal-stacked>
+
 </ng-container>
