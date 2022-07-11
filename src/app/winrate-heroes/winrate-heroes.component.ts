@@ -24,7 +24,7 @@ export class WinrateHeroesComponent implements OnInit {
               private router: Router,
               private spinner: NgxSpinnerService) {
 
-    this.view = [innerWidth / 1.05, 5000]
+    this.view = [innerWidth / 1.05, 700]
   }
 
   ngOnInit(): void {

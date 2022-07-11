@@ -15,9 +15,9 @@
 <ngx-charts-bar-horizontal-stacked
   [view]="view"
   [results]="heroWRData"
-  [xAxisLabel]="'Heroes'"
+  [xAxisLabel]="'Winrate'"
   [legendTitle]="''"
-  [yAxisLabel]="'Winrate'"
+  [yAxisLabel]="'Hero'"
   [legend]="false"
   [showXAxisLabel]="true"
   [showYAxisLabel]="true"
@@ -27,6 +27,14 @@
   [barPadding]="2"
   (select)="onSelect($event)"
   (window:resize)="onResize($event)">
+  <ng-template #tooltipTemplate let-model="model">
+    <!-- fields are series/name/value -->
+    <div class="tt">
+      {{ model.series }}
+      - {{ model.name }}
+    </div>
+  </ng-template>
+
 </ngx-charts-bar-horizontal-stacked>
 
 </ng-container>
