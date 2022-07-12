@@ -12,10 +12,11 @@
     </div>
   </mat-card>
 
-<ngx-charts-bar-horizontal-stacked
+<ngx-charts-bar-horizontal
   [view]="view"
   [results]="heroWRData"
   [xAxisLabel]="'Winrate'"
+  [customColors]="customColors"
   [legendTitle]="''"
   [yAxisLabel]="'Hero'"
   [legend]="false"
@@ -28,13 +29,10 @@
   (select)="onSelect($event)"
   (window:resize)="onResize($event)">
   <ng-template #tooltipTemplate let-model="model">
-    <!-- fields are series/name/value -->
-    <div class="tt">
-      {{ model.series }}
-      - {{ model.name }}
+    <div class="tt" [innerText]="getRoles(model.name)" >
     </div>
   </ng-template>
 
-</ngx-charts-bar-horizontal-stacked>
+</ngx-charts-bar-horizontal>
 
 </ng-container>

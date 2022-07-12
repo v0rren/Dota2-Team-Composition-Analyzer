@@ -16,6 +16,7 @@ import {NgxSpinnerService} from "ngx-spinner";
 export class MatchupComponent implements OnInit {
 
   public heroWRData = [] as any[];
+  view;
 
   public heroId;
   public heroName;
@@ -23,7 +24,8 @@ export class MatchupComponent implements OnInit {
   constructor(private activatedroute:ActivatedRoute,
               private dota2OpenApi: Dota2OpenApiService,
               private spinner: NgxSpinnerService)
-  { }
+  {    this.view = [innerWidth / 1.05, 1500]
+  }
 
   ngOnInit(): void {
     this.spinner.show();
@@ -40,16 +42,26 @@ export class MatchupComponent implements OnInit {
           data.map( x => {
             let hero = heroStat.find( hero => hero.id == x.hero_id );
             this.heroWRData.push({name:  hero?.name, value:  ( x['wins']/ x['games_played'] )* 100});
-
           })
         }
       },
       complete: () => {
-        this.heroWRData = [...this.heroWRData];
+        this.updateChart(this.heroWRData);
         this.pageLoaded = true;
         this.spinner.hide();
       }
     })
   }
-
+  private updateChart(data: any[]) {
+    this.heroWRData = [...data.sort((a, b) => {
+      if (+a.value > +b.value) {
+        return -1;
+      }
+      if (+a.value < +b.value) {
+        return 1;
+      }
+      // a must be equal to b
+      return 0;
+    })]
+  }
 }

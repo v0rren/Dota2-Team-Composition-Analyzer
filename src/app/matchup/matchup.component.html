@@ -5,7 +5,7 @@
     <mat-card>{{heroName}} Matchup Winrates </mat-card>
   </div>
   <ngx-charts-bar-vertical
-    [view]="[1000,1000]"
+    [view]="view"
     [results]="heroWRData"
     [xAxisLabel]="'Heroes'"
     [legendTitle]="''"
