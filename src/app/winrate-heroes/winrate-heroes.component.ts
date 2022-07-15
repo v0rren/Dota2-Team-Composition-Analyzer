@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HeroStat} from "../../interfaces/hero-stat";
 import {Dota2OpenApiService} from "../../services/dota2-open-api.service";
 import {Router} from "@angular/router";
 import {GeneralStorageService} from "../../services/general-storage.service";
-import { NgxSpinnerService} from "ngx-spinner";
-import {Color, ScaleType} from "@swimlane/ngx-charts";
+import {NgxSpinnerService} from "ngx-spinner";
+import {LegendPosition,Color, ColorHelper, ScaleType} from "@swimlane/ngx-charts";
 
 @Component({
   selector: 'app-winrate-heroes',
@@ -17,20 +17,24 @@ export class WinrateHeroesComponent implements OnInit {
   pageLoaded: boolean = false;
   view;
   heroStats: HeroStat[] = [] as HeroStat[];
-
+  legendPosition = LegendPosition.Right
   attributes = [] as string[];
   roles = [] as string[];
   colorScheme: Color = {
     name: 'myScheme',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['#f00', '#0f0', '#0ff'],
+    domain: ['#C85C41', '#38573E', '#4D80A8'],
   };
+
+  public legendData =  ['Strength', 'Agility', 'Blue'];
+  //public legendColors = new colorH ['#C85C41', '#38573E', '#4D80A8'];
+  public legendColors = new ColorHelper(this.colorScheme, ScaleType.Ordinal, [], null)
   constructor(private dota2OpenApi: Dota2OpenApiService,
               private router: Router,
               private spinner: NgxSpinnerService) {
 
-    this.view = [innerWidth / 1.05, 1500]
+    this.view = [500, 500]
   }
 
   ngOnInit(): void {
@@ -63,6 +67,7 @@ export class WinrateHeroesComponent implements OnInit {
         this.updateChart(this.heroWRData);
         GeneralStorageService.heroes = this.heroStats;
         this.pageLoaded = true;
+        this.view = [innerWidth / 1.20, 30*this.heroWRData.length]
         this.spinner.hide();
       }
     })
@@ -79,6 +84,9 @@ export class WinrateHeroesComponent implements OnInit {
       // a must be equal to b
       return 0;
     })]
+
+    this.view = [innerWidth / 1.20, 30*this.heroWRData.length]
+
   }
 
   private GenerateSeriesArray(heroStat: HeroStat) {
@@ -134,7 +142,7 @@ export class WinrateHeroesComponent implements OnInit {
   }
 
   onResize(event) {
-    this.view = [event.target.innerWidth / 1.05, 1500];
+    this.view = [event.target.innerWidth / 1.20, 30*this.heroWRData.length];
   }
 
   //Check if array contains all elements of another array
@@ -144,13 +152,14 @@ export class WinrateHeroesComponent implements OnInit {
 
     let hero = this.heroStats.find(x => x.name == name);
     if(hero?.primary_attr === 'agi'){
-      return '#556b2f'
+      return '#38573E'
     }
     else if ( hero?.primary_attr === 'str'){
-      return '#c82848'
+      return '#C85C41'
     }
-    else return '#6495ed'
+    else return '#4D80A8'
   }
+
 
   getRoles(heroName: string) {
 

@@ -8,31 +8,39 @@
     <app-filter-bar
       (heroTypeChanged)="updateDataAttr($event)"
       (heroRoleChanged)="updateDataRoles($event)"></app-filter-bar>
-   <div>Tip! Click on a hero to look at the favorable matchups
+    <div>Tip! Click on a hero to look at the favorable matchups
     </div>
   </mat-card>
 
-<ngx-charts-bar-horizontal
-  [view]="view"
-  [results]="heroWRData"
-  [xAxisLabel]="'Winrate'"
-  [customColors]="customColors"
-  [legendTitle]="''"
-  [yAxisLabel]="'Hero'"
-  [legend]="false"
-  [showXAxisLabel]="true"
-  [showYAxisLabel]="true"
-  [xAxis]="true"
-  [yAxis]="true"
-  [roundDomains]="true"
-  [barPadding]="2"
-  (select)="onSelect($event)"
-  (window:resize)="onResize($event)">
-  <ng-template #tooltipTemplate let-model="model">
-    <div class="tt" [innerText]="getRoles(model.name)" >
-    </div>
-  </ng-template>
+  <ngx-charts-bar-horizontal
+    [view]="view"
+    [results]="heroWRData"
+    [xAxisLabel]="'Winrate'"
+    [customColors]="customColors"
+    [legendTitle]="''"
+    [yAxisLabel]="'Hero'"
+    [legend]="false"
+    [showXAxisLabel]="true"
+    [showYAxisLabel]="true"
+    [xAxis]="true"
+    [yAxis]="true"
+    [roundDomains]="true"
+    [barPadding]="3"
+    (select)="onSelect($event)"
+    (window:resize)="onResize($event)">
+    <ng-template #tooltipTemplate let-model="model">
+      <div class="tt" [innerText]="getRoles(model.name)" >
+      </div>
+    </ng-template>
 
-</ngx-charts-bar-horizontal>
-
+  </ngx-charts-bar-horizontal>
+  <div class="chart-legend"  style="position: absolute; right: 10px">
+    <ngx-charts-legend
+      [title]="'Legend: Heroes Roles'"
+      [horizontal]="false"
+      [data]="legendData"
+      [colors]="legendColors"
+      (labelClick)="getRoles('axe')">
+    </ngx-charts-legend>
+  </div>
 </ng-container>
