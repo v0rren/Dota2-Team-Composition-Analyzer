@@ -1,0 +1,46 @@
+<ngx-spinner type="ball-scale-multiple" > <p>Loading...</p></ngx-spinner>
+
+
+<ng-container *ngIf="pageLoaded">
+  <mat-card>
+    <mat-card-title>Welcome to Dota2 Hero Picker Helper</mat-card-title>
+    <mat-card-subtitle>Here you can look at  general Winrate of every hero</mat-card-subtitle>
+    <app-team-matcher
+      (heroTypeChanged)="updateDataAttr($event)"
+      (heroRoleChanged)="updateDataRoles($event)"></app-team-matcher>
+    <div>Tip! Click on a hero to look at the favorable matchups
+    </div>
+  </mat-card>
+
+  <ngx-charts-bar-horizontal
+    [view]="view"
+    [results]="heroWRData"
+    [xAxisLabel]="'Winrate'"
+    [customColors]="customColors"
+    [legendTitle]="''"
+    [yAxisLabel]="'Hero'"
+    [legend]="false"
+    [showXAxisLabel]="true"
+    [showYAxisLabel]="true"
+    [xAxis]="true"
+    [yAxis]="true"
+    [roundDomains]="true"
+    [barPadding]="3"
+    (select)="onSelect($event)"
+    (window:resize)="onResize($event)">
+    <ng-template #tooltipTemplate let-model="model">
+      <div class="tt" [innerText]="getRoles(model.name)" >
+      </div>
+    </ng-template>
+
+  </ngx-charts-bar-horizontal>
+  <div class="chart-legend"  style="position: absolute; right: 10px">
+    <ngx-charts-legend
+      [title]="'Legend: Heroes Roles'"
+      [horizontal]="false"
+      [data]="legendData"
+      [colors]="legendColors"
+      (labelClick)="getRoles('axe')">
+    </ngx-charts-legend>
+  </div>
+</ng-container>

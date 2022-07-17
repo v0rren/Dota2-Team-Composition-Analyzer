@@ -18,13 +18,20 @@ import {MatInputModule} from "@angular/material/input";
 import {NgxSpinnerModule} from "ngx-spinner";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
+import { TeamMatcherComponent } from './components/team-matcher/team-matcher.component';
+import { HeroesSuggestionComponent } from './components/heroes-suggestion/heroes-suggestion.component';
+import {MatButtonModule} from "@angular/material/button";
+import {MatChipsModule} from "@angular/material/chips";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 @NgModule({
   declarations: [
     AppComponent,
     FilterBarComponent,
     MatchupComponent,
-    WinrateHeroesComponent
+    WinrateHeroesComponent,
+    TeamMatcherComponent,
+    HeroesSuggestionComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +49,10 @@ import {MatIconModule} from "@angular/material/icon";
     MatInputModule,
     NgxSpinnerModule,
     MatToolbarModule,
-    MatIconModule
+    MatIconModule,
+    MatButtonModule,
+    MatChipsModule,
+    MatAutocompleteModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {Router, RouterLink} from "@angular/router";
+import { MatButtonModule } from "@angular/material/button";
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,10 @@ export class AppComponent {
   }
 
   ngOnInit(): void {
-    this.router.navigate(['WinrateHeroes']);
+  }
+
+  navigate(path: string){
+    this.router.navigate([path]);
+
   }
 }
