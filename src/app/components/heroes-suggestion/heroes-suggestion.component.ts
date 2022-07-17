@@ -114,31 +114,14 @@ export class HeroesSuggestionComponent implements OnInit {
     }
   }
 
-  updateDataAttr(attributes: string[]) {
+  updateTeam(team: string) {
 
-    this.attributes = attributes;
-    var tmpHeroWRData = [] as any[];
 
-    this.heroStats.map(x => {
-      if ((attributes.includes(x.primary_attr) || attributes.includes('All')) && (this.checker(x.roles, this.roles) || this.roles.includes('All'))) {
-        tmpHeroWRData.push({name: x.name, value: (+x.herald_win / +x.herald_pick) * 100});
-      }
-    })
-    this.updateChart(tmpHeroWRData);
 
   }
 
 
-  updateDataRoles(roles: string[]) {
-    this.roles = roles;
-    let tmpHeroWRData = [] as any[];
-
-    this.heroStats.map(x => {
-      if ((this.attributes.includes(x.primary_attr) || this.attributes.includes('All')) && (this.checker(x.roles, roles)) || roles.includes('All')) {
-        tmpHeroWRData.push({name: x.name, value: (+x.herald_win / +x.herald_pick) * 100});
-      }
-    })
-    this.updateChart(tmpHeroWRData);
+  updateEnemyTeam(enemy: string) {
 
   }
 

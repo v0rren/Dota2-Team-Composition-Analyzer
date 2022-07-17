@@ -15,28 +15,20 @@ import {GeneralStorageService} from "../../../services/general-storage.service";
 export class TeamMatcherComponent implements OnInit {
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  teamCtrl = new FormControl('');
-  enemyCtrl = new FormControl('');
+  @Input() teamCtrl = new FormControl('');
+  @Input() enemyCtrl = new FormControl('');
   filteredTeamHero: Observable<string[]>;
   filteredEnemyHero: Observable<string[]>;
   teamHeroes: string[] = [];
   enemyHeroes: string[] = [];
   allHeroes: string[] = [];
   public heroes = [] as HeroStat[];
-  // @ts-ignore
-  @ViewChild('teamHeroInput') teamHeroInput: ElementRef<HTMLInputElement>;
-  // @ts-ignore
-  @ViewChild('enemyHeroInput') enemyHeroInput: ElementRef<HTMLInputElement>;
 
+  @ViewChild('teamHeroInput') teamHeroInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('enemyHeroInput') enemyHeroInput!: ElementRef<HTMLInputElement>;
 
-  @Input()  heroType = new FormControl(['All']);
-  @Input()  heroRole = new FormControl(['All']);
-
-  @Output() heroTypeChanged: EventEmitter<string[]> =   new EventEmitter();
-  @Output() heroRoleChanged: EventEmitter<string[]> =   new EventEmitter();
-
-  heroTypeList: string[] = ['All', 'str', 'int', 'agi'];
-  heroRoleList: string[] = ['All', 'Carry', 'Escape', 'Nuker','Durable','Support','Disabler','Initiator'];
+  @Output() heroTeamChanged: EventEmitter<string> =   new EventEmitter();
+  @Output() enemyHeroChanged: EventEmitter<string> =   new EventEmitter();
 
   constructor(private elementRef: ElementRef) {
     this.heroes = GeneralStorageService._heroes;
@@ -56,15 +48,15 @@ export class TeamMatcherComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.heroType.valueChanges.subscribe( value => {
+    this.teamCtrl.valueChanges.subscribe( value => {
       if(value){
-        this.heroTypeChanged.emit(value)
+        this.heroTeamChanged.emit(value)
       }
     })
 
-    this.heroRole.valueChanges.subscribe( value => {
+    this.enemyCtrl.valueChanges.subscribe( value => {
       if(value){
-        this.heroRoleChanged.emit(value)
+        this.enemyHeroChanged.emit(value)
       }
     })
   }
@@ -88,7 +80,7 @@ export class TeamMatcherComponent implements OnInit {
     else{
       const value = (event.value || '').trim();
 
-      // Add our team hero
+      // Add our enemy hero
       if (value) {
         this.enemyHeroes.push(value);
       }
@@ -109,7 +101,9 @@ export class TeamMatcherComponent implements OnInit {
       const index = this.teamHeroes.indexOf(hero);
       if (index >= 0) {
         this.teamHeroes.splice(index, 1);
-      }}
+      }
+      this.heroTeamChanged.emit(hero);
+    }
     else{
       const index = this.enemyHeroes.indexOf(hero);
       if (index >= 0) {

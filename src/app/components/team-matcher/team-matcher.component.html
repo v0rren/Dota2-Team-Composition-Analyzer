@@ -17,10 +17,12 @@
   <mat-label>Your Team Heroes</mat-label>
   <mat-chip-list #chipList aria-label="Fruit selection">
     <mat-chip
+
       *ngFor="let teamHero of teamHeroes"
       (removed)="removeHero(teamHero,true)">
       {{teamHero}}
       <button matChipRemove>
+
         <mat-icon>cancel</mat-icon>
       </button>
     </mat-chip>
