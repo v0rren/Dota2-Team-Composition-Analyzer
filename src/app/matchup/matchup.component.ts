@@ -1,10 +1,11 @@
-import {Component, NgModule, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {Dota2OpenApiService} from "../../services/dota2-open-api.service";
 import {GeneralStorageService} from "../../services/general-storage.service";
-import {MatCard} from "@angular/material/card";
-import { MatCardModule } from '@angular/material/card';
+
 import {NgxSpinnerService} from "ngx-spinner";
+import {Color, ColorHelper, ScaleType} from "@swimlane/ngx-charts";
+import {HeroStat} from "../../interfaces/hero-stat";
 
 @Component({
   selector: 'app-matchup',
@@ -17,14 +18,26 @@ export class MatchupComponent implements OnInit {
 
   public heroWRData = [] as any[];
   view;
+  public heroStats = [] as HeroStat[];
 
   public heroId;
   public heroName;
   pageLoaded: boolean = false;
+  colorScheme: Color = {
+    name: 'myScheme',
+    selectable: true,
+    group: ScaleType.Ordinal,
+    domain: ['#ef4444', '#84cc16', '#0ea5e9'],
+  };
+
+  public legendData =  ['Strength', 'Agility', 'Blue'];
+  public legendColors = new ColorHelper(this.colorScheme, ScaleType.Ordinal, [], null)
   constructor(private activatedroute:ActivatedRoute,
               private dota2OpenApi: Dota2OpenApiService,
               private spinner: NgxSpinnerService)
   {    this.view = [innerWidth / 1.05, 1500]
+    this.heroStats = GeneralStorageService._heroes;
+
   }
 
   ngOnInit(): void {
@@ -63,5 +76,23 @@ export class MatchupComponent implements OnInit {
       // a must be equal to b
       return 0;
     })]
+  }
+  customColors = (name) => {
+
+    let hero = this.heroStats.find(x => x.name == name);
+    if(hero?.primary_attr === 'agi'){
+      return '#84cc16'
+    }
+    else if ( hero?.primary_attr === 'str'){
+      return '#ef4444'
+    }
+    else return '#0ea5e9'
+  }
+
+
+  getRoles(heroName: string) {
+
+    let hero = this.heroStats?.find(x => x.name == heroName);
+    return heroName + " is a " + hero?.primary_attr+ " hero and his roles are: " + hero?.roles.join('-');
   }
 }

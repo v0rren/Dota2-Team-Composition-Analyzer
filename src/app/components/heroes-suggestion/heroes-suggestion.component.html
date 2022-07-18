@@ -1,15 +1,20 @@
 <ngx-spinner type="ball-scale-multiple" > <p>Loading...</p></ngx-spinner>
 
 
-<ng-container *ngIf="pageLoaded">
-  <mat-card>
-    <mat-card-title>Welcome to Dota2 Hero Picker Helper</mat-card-title>
-    <mat-card-subtitle>Here you can look at some heroes suggestion based on the actual hero combo</mat-card-subtitle>
-    <app-team-matcher
-      (heroTeamChanged)="updateTeam($event)"
-      (enemyHeroChanged)="updateEnemyTeam($event)"></app-team-matcher>
-  </mat-card>
-
+<ng-container  *ngIf="pageLoaded">
+  <div style="padding: 2rem">
+    <mat-card style="background-color: #f1f5f9">
+      <div class="main-div">
+        <mat-card>
+          <mat-card-title>Welcome to Dota2 Hero Picker Helper</mat-card-title>
+          <mat-card-subtitle>Here you can look at some heroes suggestion based on the actual hero combo</mat-card-subtitle>
+          <app-team-matcher
+            (heroTeamChanged)="updateTeam($event)"
+            (enemyHeroChanged)="updateEnemyTeam($event)"></app-team-matcher>
+        </mat-card>
+      </div>
+    </mat-card>
+  </div>
   <ngx-charts-bar-horizontal
     [view]="view"
     [results]="heroWRData"

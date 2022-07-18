@@ -1,9 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: gainsboro}
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .legend-label-text {
   white-space: normal !important;
   width: 100% !important;
   color: black;
+
+}
+
+.divcenter{
+  display: flex;
+  padding: 2rem;
+  justify-content: center
+}
+.main-div{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.grid-a2{
+  justify-content: center;
+  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 20px 1fr;
 }

@@ -1,60 +1,62 @@
-<mat-form-field class="example-chip-list" appearance="fill">
-  <mat-label>Your Team Heroes</mat-label>
-  <mat-chip-list #chipList aria-label="Fruit selection">
-    <mat-chip
+<div class="grid-a2">
+  <mat-form-field class="example-chip-list" appearance="fill">
+    <mat-label>Your Team Heroes</mat-label>
+    <mat-chip-list #chipList aria-label="Fruit selection">
+      <mat-chip
 
-      *ngFor="let teamHero of teamHeroes"
-      (removed)="removeHero(teamHero,true)">
-      {{teamHero}}
-      <button matChipRemove>
-
-        <mat-icon>cancel</mat-icon>
-      </button>
-    </mat-chip>
-    <input
-      placeholder="Next Hero..."
-      #teamHeroInput
-      [formControl]="teamCtrl"
-      [matAutocomplete]="auto"
-      [matChipInputFor]="chipList"
-      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-      (matChipInputTokenEnd)="addHero($event,true)">
-  </mat-chip-list>
-  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event,true)">
-    <ng-container *ngFor="let teamHero of filteredTeamHero | async">
-      <mat-option *ngIf="!teamHeroes.includes(teamHero) && !enemyHeroes.includes(teamHero)"  [value]="teamHero">
+        *ngFor="let teamHero of teamHeroes"
+        (removed)="removeHero(teamHero,true)">
         {{teamHero}}
-      </mat-option>
-    </ng-container>
-  </mat-autocomplete>
-</mat-form-field>
+        <button matChipRemove>
 
-<mat-form-field class="example-chip-list" appearance="fill">
-  <mat-label>Enemy Team Heroes</mat-label>
-  <mat-chip-list #chipListEnemy aria-label="Fruit selection">
-    <mat-chip
-      *ngFor="let enemyHero of enemyHeroes"
-      (removed)="removeHero(enemyHero,false)">
-      {{enemyHero}}
-      <button matChipRemove>
-        <mat-icon>cancel</mat-icon>
-      </button>
-    </mat-chip>
-    <input
-      placeholder="Next Hero..."
-      #enemyHeroInput
-      [formControl]="enemyCtrl"
-      [matAutocomplete]="auto2"
-      [matChipInputFor]="chipListEnemy"
-      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-      (matChipInputTokenEnd)="addHero($event,false)">
-  </mat-chip-list>
-  <mat-autocomplete #auto2="matAutocomplete" (optionSelected)="selected($event,false)">
-    <ng-container *ngFor="let enemyHero of filteredEnemyHero | async">
-      <mat-option *ngIf="!enemyHeroes.includes(enemyHero)  && !teamHeroes.includes(enemyHero) "  [value]="enemyHero">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+      <input
+        placeholder="Next Hero..."
+        #teamHeroInput
+        [formControl]="teamCtrl"
+        [matAutocomplete]="auto"
+        [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        (matChipInputTokenEnd)="addHero($event,true)">
+    </mat-chip-list>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event,true)">
+      <ng-container *ngFor="let teamHero of filteredTeamHero | async">
+        <mat-option *ngIf="!teamHeroes.includes(teamHero) && !enemyHeroes.includes(teamHero)"  [value]="teamHero">
+          {{teamHero}}
+        </mat-option>
+      </ng-container>
+    </mat-autocomplete>
+  </mat-form-field>
+  <mat-icon>compare_arrows</mat-icon>
+  <mat-form-field class="example-chip-list" appearance="fill">
+    <mat-label>Enemy Team Heroes</mat-label>
+    <mat-chip-list #chipListEnemy aria-label="Fruit selection">
+      <mat-chip
+        *ngFor="let enemyHero of enemyHeroes"
+        (removed)="removeHero(enemyHero,false)">
         {{enemyHero}}
-      </mat-option>
-    </ng-container>
-  </mat-autocomplete>
-</mat-form-field>
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+      <input
+        placeholder="Next Hero..."
+        #enemyHeroInput
+        [formControl]="enemyCtrl"
+        [matAutocomplete]="auto2"
+        [matChipInputFor]="chipListEnemy"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        (matChipInputTokenEnd)="addHero($event,false)">
+    </mat-chip-list>
+    <mat-autocomplete #auto2="matAutocomplete" (optionSelected)="selected($event,false)">
+      <ng-container *ngFor="let enemyHero of filteredEnemyHero | async">
+        <mat-option *ngIf="!enemyHeroes.includes(enemyHero)  && !teamHeroes.includes(enemyHero) "  [value]="enemyHero">
+          {{enemyHero}}
+        </mat-option>
+      </ng-container>
+    </mat-autocomplete>
+  </mat-form-field>
 
+</div>

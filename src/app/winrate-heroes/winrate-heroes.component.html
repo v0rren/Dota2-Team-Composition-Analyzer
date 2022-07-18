@@ -2,16 +2,21 @@
 
 
 <ng-container *ngIf="pageLoaded">
-  <mat-card>
-    <mat-card-title>Welcome to Dota2 Hero Picker Helper</mat-card-title>
-    <mat-card-subtitle>Here you can look at  general Winrate of every hero</mat-card-subtitle>
-    <app-filter-bar
-      (heroTypeChanged)="updateDataAttr($event)"
-      (heroRoleChanged)="updateDataRoles($event)"></app-filter-bar>
-    <div>Tip! Click on a hero to look at the favorable matchups
+  <div style="padding: 2rem">
+  <mat-card style="background-color: #f1f5f9">
+    <div class="main-div">
+      <mat-card >
+        <mat-card-title >Welcome to Dota2 Hero Picker Helper</mat-card-title>
+        <mat-card-subtitle>Here you can look at  general Winrate of every hero</mat-card-subtitle>
+        <app-filter-bar
+          (heroTypeChanged)="updateDataAttr($event)"
+          (heroRoleChanged)="updateDataRoles($event)"></app-filter-bar>
+        <div>Tip! Click on a hero to look at the favorable matchups
+        </div>
+      </mat-card>
     </div>
   </mat-card>
-
+  </div>
   <ngx-charts-bar-horizontal
     [view]="view"
     [results]="heroWRData"
@@ -43,4 +48,6 @@
       (labelClick)="getRoles('axe')">
     </ngx-charts-legend>
   </div>
+
+
 </ng-container>

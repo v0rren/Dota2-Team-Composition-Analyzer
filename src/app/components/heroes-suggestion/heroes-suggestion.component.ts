@@ -26,8 +26,7 @@ export class HeroesSuggestionComponent implements OnInit {
     name: 'myScheme',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['#C85C41', '#38573E', '#4D80A8'],
-  };
+    domain: ['#ef4444', '#84cc16', '#0ea5e9'],  };
 
   public legendData =  ['Strength', 'Agility', 'Blue'];
   //public legendColors = new colorH ['#C85C41', '#38573E', '#4D80A8'];
@@ -204,12 +203,12 @@ export class HeroesSuggestionComponent implements OnInit {
 
     let hero = this.heroStats.find(x => x.name == name);
     if(hero?.primary_attr === 'agi'){
-      return '#38573E'
+      return '#84cc16'
     }
     else if ( hero?.primary_attr === 'str'){
-      return '#C85C41'
+      return '#ef4444'
     }
-    else return '#4D80A8'
+    else return '#0ea5e9'
   }
 
   getRoles(heroName: string) {

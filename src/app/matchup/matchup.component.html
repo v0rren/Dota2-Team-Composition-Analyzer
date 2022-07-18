@@ -1,7 +1,6 @@
 <ngx-spinner type="ball-scale-multiple" > <p>Loading...</p></ngx-spinner>
 <ng-container *ngIf="pageLoaded">
   <div>
-    <button [routerLink]="'/WinrateHeroes'"  mat-raised-button>Back</button>
     <mat-card>{{heroName}} Matchup Winrates </mat-card>
   </div>
   <ngx-charts-bar-vertical
@@ -16,9 +15,19 @@
     [xAxis]="true"
     [yAxis]="true"
     [roundDomains]="true"
+    [customColors]="customColors"
     [roundEdges]="true"
     [yScaleMax]="100"
     [yScaleMin]="0"
     [barPadding]="1">
   </ngx-charts-bar-vertical>
+  <div class="chart-legend"  style="position: absolute; right: 10px">
+    <ngx-charts-legend
+      [title]="'Legend: Heroes Roles'"
+      [horizontal]="false"
+      [data]="legendData"
+      [colors]="legendColors"
+      (labelClick)="getRoles('axe')">
+    </ngx-charts-legend>
+  </div>
 </ng-container>
