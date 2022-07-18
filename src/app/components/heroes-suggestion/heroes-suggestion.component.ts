@@ -20,6 +20,8 @@ export class HeroesSuggestionComponent implements OnInit {
   heroStats: HeroStat[] = [] as HeroStat[];
   legendPosition = LegendPosition.Right
   attributes = [] as string[];
+  heroesTeam = [] as string[];
+  enemyTeam = [] as string[];
   roles = [] as string[];
   colorScheme: Color = {
     name: 'myScheme',
@@ -65,7 +67,6 @@ export class HeroesSuggestionComponent implements OnInit {
         }
       },
       complete: () => {
-        this.updateChart(this.heroWRData);
         GeneralStorageService.heroes = this.heroStats;
         this.pageLoaded = true;
         this.view = [innerWidth / 1.20, 30*this.heroWRData.length]
@@ -74,19 +75,37 @@ export class HeroesSuggestionComponent implements OnInit {
     })
   }
 
-  private updateChart(data: any[]) {
-    this.heroWRData = [...data.sort((a, b) => {
-      if (+a.value > +b.value) {
-        return -1;
-      }
-      if (+a.value < +b.value) {
-        return 1;
-      }
-      // a must be equal to b
-      return 0;
-    })]
+  private updateChart() {
 
-    this.view = [innerWidth / 1.20, 30*this.heroWRData.length]
+    this.dota2OpenApi.getFindMatches(this.heroesTeam,this.enemyTeam).subscribe({
+      next: (data) => {
+        if (data) {
+
+
+
+
+        }
+      },
+      complete: () => {
+
+
+
+
+      }
+    })
+
+    //  this.heroWRData = [...data.sort((a, b) => {
+    //    if (+a.value > +b.value) {
+    //      return -1;
+    //    }
+    //    if (+a.value < +b.value) {
+    //      return 1;
+    //    }
+    //    // a must be equal to b
+    //    return 0;
+    //  })]
+
+    //  this.view = [innerWidth / 1.20, 30*this.heroWRData.length]
 
   }
 
@@ -116,14 +135,32 @@ export class HeroesSuggestionComponent implements OnInit {
 
   updateTeam(team: string) {
 
+    const heroCode = this.heroStats.find( h => h.name == team)?.id;
 
+    if (heroCode != null) {
+      const index = this.heroesTeam.indexOf(heroCode);
 
+      if(index != -1)
+        this.heroesTeam.splice(index,1);
+      else
+        this.heroesTeam.push(heroCode);
+
+      this.updateChart();}
   }
 
 
   updateEnemyTeam(enemy: string) {
 
-  }
+    const heroCode = this.heroStats.find( h => h.name == enemy)?.id;
+
+    if (heroCode != null) {
+      const index = this.enemyTeam.indexOf(heroCode);
+      if(index != -1)
+        this.enemyTeam.splice(index,1);
+      else
+        this.enemyTeam.push(heroCode);
+
+      this.updateChart();}  }
 
   onResize(event) {
     this.view = [event.target.innerWidth / 1.20, 30*this.heroWRData.length];
