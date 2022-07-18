@@ -4,12 +4,10 @@
 <ng-container *ngIf="pageLoaded">
   <mat-card>
     <mat-card-title>Welcome to Dota2 Hero Picker Helper</mat-card-title>
-    <mat-card-subtitle>Here you can look at  general Winrate of every hero</mat-card-subtitle>
+    <mat-card-subtitle>Here you can look at some heroes suggestion based on the actual hero combo</mat-card-subtitle>
     <app-team-matcher
       (heroTeamChanged)="updateTeam($event)"
       (enemyHeroChanged)="updateEnemyTeam($event)"></app-team-matcher>
-    <div>Tip! Click on a hero to look at the favorable matchups
-    </div>
   </mat-card>
 
   <ngx-charts-bar-horizontal
