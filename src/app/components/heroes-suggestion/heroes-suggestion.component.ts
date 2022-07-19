@@ -56,7 +56,7 @@ export class HeroesSuggestionComponent implements OnInit {
               herald_win: x['1_win'],
             } as HeroStat
             this.heroStats.push(heroStat)
-           // this.heroWRData.push({name: x.localized_name, value: (+heroStat.herald_win / +heroStat.herald_pick) * 100});
+            // this.heroWRData.push({name: x.localized_name, value: (+heroStat.herald_win / +heroStat.herald_pick) * 100});
           });
         }
       },
@@ -70,90 +70,89 @@ export class HeroesSuggestionComponent implements OnInit {
   }
 
   private updateChart() {
-    let heroesMap = new Map<string,[number,number]>;
-    this.spinner.show();
-    this.dota2OpenApi.getFindMatches(this.heroesTeam,this.enemyTeam).subscribe({
-      next: (data) => {
-        if (data) {
 
-          data.map( match => {
-            let teamA = match.teama;
-            let teamB = match.teamb;
-            if(this.checker(teamA,this.heroesTeam) && this.heroesTeam.length > 0 ){
-              // remove heroes already selected
-              for (const hero of this.heroesTeam) {
-                teamA.splice(teamA.indexOf(hero),1);
-              }
+    if(this.heroesTeam.length > 0 || this.enemyTeam.length > 0) {
+      let heroesMap = new Map<string,[number,number]>;
+      this.spinner.show();
+      this.dota2OpenApi.getFindMatches(this.heroesTeam, this.enemyTeam).subscribe({
+        next: (data) => {
+          if (data) {
 
-              for (const heroA of teamA) {
-                if(heroesMap.has(heroA)){
-                  let v = heroesMap.get(heroA)
-                  if (v) {
-                    heroesMap.set(heroA, [match.teamawin ? v[0] + 1 : v[0], v[1] + 1])
+            data.map(match => {
+              let teamA = match.teama;
+              let teamB = match.teamb;
+              if (this.checker(teamA, this.heroesTeam) && this.heroesTeam.length > 0) {
+                // remove heroes already selected
+                for (const hero of this.heroesTeam) {
+                  teamA.splice(teamA.indexOf(hero), 1);
+                }
+
+                for (const heroA of teamA) {
+                  if (heroesMap.has(heroA)) {
+                    let v = heroesMap.get(heroA)
+                    if (v) {
+                      heroesMap.set(heroA, [match.teamawin ? v[0] + 1 : v[0], v[1] + 1])
+                    }
+                  } else {
+                    heroesMap.set(heroA, [match.teamawin ? 1 : 0, 1])
                   }
                 }
-                else {
-                  heroesMap.set(heroA, [match.teamawin ? 1 : 0, 1])
+
+              } else {
+                for (const hero of this.heroesTeam) {
+                  teamB.splice(teamB.indexOf(hero), 1);
                 }
-              }
 
-            }
-            else{
-              for (const hero of this.heroesTeam) {
-                teamB.splice(teamB.indexOf(hero),1);
-              }
-
-              for (const heroB of teamB) {
-                if(heroesMap.has(heroB)){
-                  let v = heroesMap.get(heroB)
-                  if (v) {
-                    heroesMap.set(heroB, [match.teamawin ?  v[0] : v[0] + 1 , v[1] + 1])
+                for (const heroB of teamB) {
+                  if (heroesMap.has(heroB)) {
+                    let v = heroesMap.get(heroB)
+                    if (v) {
+                      heroesMap.set(heroB, [match.teamawin ? v[0] : v[0] + 1, v[1] + 1])
+                    }
+                  } else {
+                    heroesMap.set(heroB, [match.teamawin ? 0 : 1, 1])
                   }
                 }
-                else {
-                  heroesMap.set(heroB, [match.teamawin ? 0: 1, 1])
-                }
+              }
+
+            })
+
+
+          }
+        },
+        complete: () => {
+          let tmpherostats = [] as any[]
+
+          heroesMap.forEach((value: [number, number], key: string) => {
+            if (this.heroesTeam.indexOf(key) == -1 && this.enemyTeam.indexOf(key) == -1) {
+              let hero = this.heroStats.find(h => h.id === key);
+              if (hero) {
+                let winrate = +value[0] / +value[1];
+                if (winrate != 0)
+                  tmpherostats.push({name: hero.name, value: (+value[0] / +value[1]) * 100});
               }
             }
+            this.spinner.hide();
+          });
 
-          })
+          this.heroWRData = [...tmpherostats.sort((a, b) => {
+            if (+a.value > +b.value) {
+              return -1;
+            }
+            if (+a.value < +b.value) {
+              return 1;
+            }
+            // a must be equal to b
+            return 0;
+          })]
 
-
+          this.view = [innerWidth / 1.20, 500]
         }
-      },
-      complete: () => {
-        let tmpherostats = [] as any[]
-
-        heroesMap.forEach((value: [number ,number ], key: string) => {
-          if(this.heroesTeam.indexOf(key) == -1 && this.enemyTeam.indexOf(key) == -1) {
-            let hero = this.heroStats.find(h => h.id === key);
-            if (hero) {
-              let winrate = +value[0] / +value[1];
-              if (winrate != 0)
-                tmpherostats.push({name: hero.name, value: (+value[0] / +value[1]) * 100});
-            }
-          }
-          this.spinner.hide();
-        });
-
-        this.heroWRData = [...tmpherostats.sort((a, b) => {
-          if (+a.value > +b.value) {
-            return -1;
-          }
-          if (+a.value < +b.value) {
-            return 1;
-          }
-          // a must be equal to b
-          return 0;
-        })]
-
-        this.view = [innerWidth / 1.20,500]
-      }
 
 
-    })
+      })
 
-
+    }
 
   }
 

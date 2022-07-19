@@ -12,7 +12,7 @@
           <mat-icon>cancel</mat-icon>
         </button>
       </mat-chip>
-      <input
+      <input *ngIf="teamHeroes.length < 4"
         placeholder="Next Hero..."
         #teamHeroInput
         [formControl]="teamCtrl"
@@ -41,7 +41,7 @@
           <mat-icon>cancel</mat-icon>
         </button>
       </mat-chip>
-      <input
+      <input *ngIf="enemyHeroes.length < 5"
         placeholder="Next Hero..."
         #enemyHeroInput
         [formControl]="enemyCtrl"
@@ -52,7 +52,7 @@
     </mat-chip-list>
     <mat-autocomplete #auto2="matAutocomplete" (optionSelected)="selected($event,false)">
       <ng-container *ngFor="let enemyHero of filteredEnemyHero | async">
-        <mat-option *ngIf="!enemyHeroes.includes(enemyHero)  && !teamHeroes.includes(enemyHero) "  [value]="enemyHero">
+        <mat-option *ngIf="!enemyHeroes.includes(enemyHero)  && !teamHeroes.includes(enemyHero)"  [value]="enemyHero">
           {{enemyHero}}
         </mat-option>
       </ng-container>

@@ -109,6 +109,7 @@ export class TeamMatcherComponent implements OnInit {
       if (index >= 0) {
         this.enemyHeroes.splice(index, 1);
       }
+      this.enemyHeroChanged.emit(hero);
     }
   }
 

@@ -7,7 +7,7 @@
       <div class="main-div">
         <mat-card>
           <mat-card-title>Welcome to Dota2 Hero Picker Helper</mat-card-title>
-          <mat-card-subtitle>Here you can look at some heroes suggestion based on the actual hero combo</mat-card-subtitle>
+          <mat-card-subtitle>Select the actual team composition to discover what hero to pick</mat-card-subtitle>
           <app-team-matcher
             (heroTeamChanged)="updateTeam($event)"
             (enemyHeroChanged)="updateEnemyTeam($event)"></app-team-matcher>
@@ -15,35 +15,38 @@
       </div>
     </mat-card>
   </div>
-  <ngx-charts-bar-horizontal
-    [view]="view"
-    [results]="heroWRData"
-    [xAxisLabel]="'Winrate'"
-    [customColors]="customColors"
-    [legendTitle]="''"
-    [yAxisLabel]="'Hero'"
-    [legend]="false"
-    [showXAxisLabel]="true"
-    [showYAxisLabel]="true"
-    [xAxis]="true"
-    [yAxis]="true"
-    [roundDomains]="true"
-    [barPadding]="3"
-    (select)="onSelect($event)"
-    (window:resize)="onResize($event)">
-    <ng-template #tooltipTemplate let-model="model">
-      <div class="tt" [innerText]="getRoles(model.name)" >
-      </div>
-    </ng-template>
+  <ng-container *ngIf="enemyTeam.length > 0 || heroesTeam.length >0">
+    <ngx-charts-bar-horizontal
+      [view]="view"
+      [results]="heroWRData"
+      [xAxisLabel]="'Affinity'"
+      [customColors]="customColors"
+      [legendTitle]="''"
+      [yAxisLabel]="'Hero'"
+      [legend]="false"
+      [showXAxisLabel]="true"
+      [showYAxisLabel]="true"
+      [xAxis]="true"
+      [yAxis]="true"
+      [roundDomains]="true"
+      [barPadding]="3"
+      (select)="onSelect($event)"
+      (window:resize)="onResize($event)">
+      <ng-template #tooltipTemplate let-model="model">
+        <div class="tt" [innerText]="getRoles(model.name)" >
+        </div>
+      </ng-template>
 
-  </ngx-charts-bar-horizontal>
-  <div class="chart-legend"  style="position: absolute; right: 10px">
-    <ngx-charts-legend
-      [title]="'Legend: Heroes Roles'"
-      [horizontal]="false"
-      [data]="legendData"
-      [colors]="legendColors"
-      (labelClick)="getRoles('axe')">
-    </ngx-charts-legend>
-  </div>
+    </ngx-charts-bar-horizontal>
+    <div class="chart-legend"  style="position: absolute; right: 10px">
+      <ngx-charts-legend
+        [title]="'Legend: Heroes Roles'"
+        [horizontal]="false"
+        [data]="legendData"
+        [colors]="legendColors"
+        (labelClick)="getRoles('axe')">
+      </ngx-charts-legend>
+    </div>
+  </ng-container>
+
 </ng-container>
